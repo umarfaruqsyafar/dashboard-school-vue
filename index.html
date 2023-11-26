@@ -1,0 +1,229 @@
+<!doctype html><html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>vue-router</title><link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"/><link href="../assets/css/sb-admin-2.min.css" rel="stylesheet"/><link href="../assets/css/app.css" rel="stylesheet"/><link href="../assets/css/walas.css" rel="stylesheet"/><link href="../assets/css/admin.css" rel="stylesheet"/><script defer="defer" src="/js/chunk-vendors.ea4487e8.js"></script><script defer="defer" src="/js/app.86ca50ea.js"></script></head><body id="page-top"><div id="wrapper"><div id="app"></div></div><a class="scroll-to-top rounded" href="#page-top" style="margin-right: 20px;"><i class="fas fa-angle-up"></i></a><script src="../assets/vendor/jquery/jquery.min.js"></script><script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script><script src="../assets/vendor/jquery-easing/jquery.easing.min.js"></script><script src="../assets/js/sb-admin-2.min.js"></script><script src="../assets/js/siswa.js"></script><script src="../assets/js/administrasi.js"></script><script src="../assets/js/edit.js"></script><script src="../assets/js/delete.js"></script><script src="../assets/js/editspp.js"></script><script src="../assets/js/siswaspp.js"></script><script src="../assets/js/admin_siswa1.js"></script><script src="../assets/js/admin_tendik.js"></script><script src="../assets/js/hapus_bendahara.js"></script><script src="../assets/js/akun_siswa.js"></script><script src="../assets/js/menabung_siswa.js"></script><script src="../assets/js/sppsiswa.js"></script><script src="../assets/js/menabung1.js"></script><script src="../assets/js/hapuskelas.js"></script><script src="../assets/js/y.js"></script><script src="../assets/js/mobile.js"></script><script>$(".tambahSiswa").on("click", function () {
+        idkelas = $(this).data("idkelas");
+        idwalas = $(this).data("idwalas");
+
+        $("#dataKelas").val(idkelas);
+        $("#dataWalas").val(idwalas);
+
+        $(".siswamasuk").on("click", function () {
+          idsiswa = $(this).data("idsiswa");
+          console.log(idkelas, idsiswa, idwalas);
+          $.ajax({
+            url: "tambahSiswa",
+            data: {
+              idsiswa: idsiswa,
+            },
+            method: "post",
+          });
+        });
+      });</script><script>$(".siswamasukwalas").on("click", function () {
+        idsiswa = $(this).data("idsiswa");
+        console.log(idsiswa);
+        $.ajax({
+          url: "walas/tambahSiswa",
+          data: {
+            idsiswa: idsiswa,
+          },
+          method: "post",
+        });
+      });</script><script>var cariSiswaWalas = document.getElementById("siswaWalas");
+      var tabelpd = document.getElementById("siswalivewalas");
+
+      cariSiswaWalas.addEventListener("keyup", function () {
+        var ajax = new XMLHttpRequest();
+        var url = "/cariSiswaLive?keyword=" + cariSiswaWalas.value;
+        ajax.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            tabelpd.innerHTML = ajax.responseText;
+            $(".siswamasukwalas").on("click", function () {
+              idsiswa = $(this).data("idsiswa");
+              $.ajax({
+                url: "walas/tambahSiswa",
+                data: {
+                  idsiswa: idsiswa,
+                },
+                method: "post",
+              });
+            });
+          }
+        };
+        ajax.open("GET", url, true);
+        ajax.send();
+      });</script><script>$(".pilar1").on("click", function () {
+        idpilar = $(this).data("idpilar");
+        idsiswa = $(this).data("idsiswa");
+        nilai = $(this).data("nilai");
+        var xhr = new XMLHttpRequest();
+        var url = "/nilai_pilar_siswa/" + idpilar + "/" + idsiswa + "/" + nilai;
+        xhr.open("POST", url, true);
+        xhr.send();
+      });</script><script>$(".custom-file-input").on("change", function () {
+        let fileName = $(this).val().split("\\").pop();
+        $(this).next(".custom-file-label").addClass("selected").html(fileName);
+      });</script><script>var rupiah = document.getElementById("rupiah");
+      rupiah.addEventListener("keyup", function (e) {
+        // tambahkan 'Rp.' pada saat form di ketik
+        // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah.value = formatRupiah(this.value, "Rp. ");
+      });
+
+      /* Fungsi formatRupiah */
+      function formatRupiah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiah = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah += separator + ribuan.join(".");
+        }
+
+        rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+        return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
+      }</script><script>var rupiah1 = document.getElementById("rupiah1");
+      rupiah1.addEventListener("keyup", function (e) {
+        // tambahkan 'Rp.' pada saat form di ketik
+        // gunakan fungsi formatRupiah1() untuk mengubah angka yang di ketik menjadi format angka
+        rupiah1.value = formatRupiah1(this.value, "Rp. ");
+      });
+
+      /* Fungsi formatRupiah1 */
+      function formatRupiah1(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiah1 = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiah1 += separator + ribuan.join(".");
+        }
+
+        rupiah1 = split[1] != undefined ? rupiah1 + "," + split[1] : rupiah1;
+        return prefix == undefined ? rupiah1 : rupiah1 ? "Rp. " + rupiah1 : "";
+      }</script><script>var rupiahubah = document.getElementById("rupiahubah");
+      rupiahubah.addEventListener("keyup", function (e) {
+        // tambahkan 'Rp.' pada saat form di ketik
+        // gunakan fungsi formatRupiahubah() untuk mengubah angka yang di ketik menjadi format angka
+        rupiahubah.value = formatRupiahubah(this.value, "Rp. ");
+      });
+
+      /* Fungsi formatRupiahubah */
+      function formatRupiahubah(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiahubah = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiahubah += separator + ribuan.join(".");
+        }
+
+        rupiahubah =
+          split[1] != undefined ? rupiahubah + "," + split[1] : rupiahubah;
+        return prefix == undefined
+          ? rupiahubah
+          : rupiahubah
+          ? "Rp. " + rupiahubah
+          : "";
+      }</script><script>var rupiahubah1 = document.getElementById("rupiahubah1");
+      rupiahubah1.addEventListener("keyup", function (e) {
+        // tambahkan 'Rp.' pada saat form di ketik
+        // gunakan fungsi formatRupiahubah1() untuk mengubah angka yang di ketik menjadi format angka
+        rupiahubah1.value = formatRupiahubah1(this.value, "Rp. ");
+      });
+
+      /* Fungsi formatRupiahubah1 */
+      function formatRupiahubah1(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rupiahubah1 = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rupiahubah1 += separator + ribuan.join(".");
+        }
+
+        rupiahubah1 =
+          split[1] != undefined ? rupiahubah1 + "," + split[1] : rupiahubah1;
+        return prefix == undefined
+          ? rupiahubah1
+          : rupiahubah1
+          ? "Rp. " + rupiahubah1
+          : "";
+      }</script><script>// Dapatkan semua elemen dengan kelas "format-rupiah"
+      var rpElements = document.querySelectorAll(".format-rupiah");
+
+      // Loop melalui setiap elemen dan tambahkan event listener
+      rpElements.forEach(function (rp) {
+        rp.addEventListener("keyup", function (e) {
+          // Tambahkan 'Rp.' saat form diketik
+          // Gunakan fungsi formatrp() untuk mengubah angka yang diinput menjadi format angka
+          this.value = formatrp(this.value, "Rp. ");
+        });
+      });
+
+      /* Fungsi formatrp */
+      function formatrp(angka, prefix) {
+        var number_string = angka.replace(/[^,\d]/g, "").toString(),
+          split = number_string.split(","),
+          sisa = split[0].length % 3,
+          rp = split[0].substr(0, sisa),
+          ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+        // Tambahkan titik jika yang diinput sudah menjadi angka ribuan
+        if (ribuan) {
+          separator = sisa ? "." : "";
+          rp += separator + ribuan.join(".");
+        }
+
+        rp = split[1] != undefined ? rp + "," + split[1] : rp;
+        return prefix == undefined ? rp : rp ? "Rp. " + rp : "";
+      }</script><script>$(".pilar1").on("click", function () {
+        idpilar = $(this).data("idpilar");
+        idsiswa = $(this).data("idsiswa");
+        nilai = $(this).data("nilai");
+        console.log(idpilar);
+        console.log(idsiswa);
+        console.log(nilai);
+        var xhr = new XMLHttpRequest();
+        var url = "walas/nilai_raport_pilar";
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(xhr.responseText);
+          }
+        };
+        xhr.open("POST", url, true);
+        xhr.send();
+      });</script><script>// Fungsi untuk menambahkan kelas "btn-sm" jika lebar layar kurang dari atau sama dengan 992px
+      function addBtnSmClass() {
+        var elements = document.querySelectorAll(".btn-icon-split");
+        var maxWidth = 992; // Lebar maksimal dalam piksel
+
+        if (window.innerWidth <= maxWidth) {
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.add("btn-sm");
+          }
+        } else {
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("btn-sm");
+          }
+        }
+      }
+
+      // Panggil fungsi saat halaman dimuat
+      addBtnSmClass();
+
+      // Tambahkan listener untuk mengubah kelas saat lebar layar berubah
+      window.addEventListener("resize", addBtnSmClass);</script></body></html>
